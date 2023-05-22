@@ -9,7 +9,7 @@ with open("test_data_final.pkl","rb") as f:
 
 # INFO AND DATA SEPERATION
 info=data[:,:5]
-timeseries=data[:,5:]
+timeseries=np.float64(data[:,5:])
 
 #SEPERATION BETWEEN TRAIN AND TEST SET
 coef=0.1  #expample 0.1 stands for 10% test set
@@ -25,7 +25,7 @@ train_set,test_set=np.split(timeseries,[train_colum],axis=1)
 
 #NAIVE
 
-b= m.Naive (train_set,test_set,coef=(0,1))
+b= m.Naive (train_set,test_set,coef=(1,0))
 
 
 
