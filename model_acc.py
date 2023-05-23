@@ -22,6 +22,10 @@ class errors():
         summ=np.sum(abs(self.a-self.p)*factor/(self.a+self.p),axis=1    )
         return summ/N
         
-            
+    def MAPE(self):
+        N=self.a.shape[1]
+        summ=np.sum(abs((self.a-self.p)/self.a))
+        return summ/N
+        
     def experrors(self):
-        return [self.RMSE(),self.TotalSum(),self.sMAPE()]
+        return [self.RMSE(),self.TotalSum(),self.MAPE(),self.sMAPE()]
