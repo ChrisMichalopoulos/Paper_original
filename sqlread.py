@@ -6,7 +6,7 @@ import sqlite3
 ### Read sqlite query results into a pandas DataFrame ### 
 
 con = sqlite3.connect("data1.db")
-df = pd.read_sql_query("SELECT * from timeseries_ESYS LIMIT 1000", con)
+df = pd.read_sql_query("SELECT * from timeseries_ESYS LIMIT 10000", con)
 con.close()
 test_sample=df.sample(frac=0.25)
 
@@ -19,7 +19,7 @@ with open("test_data.pkl","rb") as f:
      data=pickle.load(f)
 
 n=3 #number of last colums to drop
-data=data.iloc[:,:-n]
+data=data.iloc[:,n:-n]
 
 """" Remove rows with Nan"""
 data2=data.dropna(subset=[data.columns[-1]])

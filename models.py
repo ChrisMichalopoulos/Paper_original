@@ -17,6 +17,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import LSTM
 
+from numba import jit,prange
 
 
 
@@ -161,24 +162,12 @@ def average(train_set,test_set):
     
     return er.experrors()
     
-    
-    
-         
         
         
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         
         
         
