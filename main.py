@@ -58,7 +58,15 @@ train_set,test_set=np.split(unmesured_data,[train_colum],axis=1)
 
 #KNN
 
-knn=  mc.KNNtimeseries(mesured_data,train_set,test_set,k=10,mean=True)
+# for k in [2,4,6,8,10,12,14,16,18,20,22,24,26]:
+#     knn=  mc.KNNtimeseries(mesured_data,train_set,test_set,k=k,mean=True)
+
+#     print(k)
+#     print(np.average(knn[3]))
+    
 
 
-print(np.average(knn[3]))
+#GMM
+
+gmm=mc.GMM(mesured_data,train_set,test_set,k=30,cov="full")
+print(np.average(gmm[3]))    #DEBUGGING

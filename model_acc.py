@@ -15,16 +15,16 @@ class errors():
         return (summ/N)**0.5
         
     def TotalSum(self):
-        return np.sum(self.a - self.p)
+        return np.sum(self.a - self.p,axis=1)
 
-    def sMAPE(self,factor=1):
+    def sMAPE(self,factor=2):
         N=self.a.shape[1]
         summ=np.sum(abs(self.a-self.p)*factor/(self.a+self.p),axis=1    )
         return summ/N
         
     def MAPE(self):
         N=self.a.shape[1]
-        summ=np.sum(abs((self.a-self.p)/self.a))
+        summ=np.sum(abs((self.a-self.p)/self.a),axis=1)
         return summ/N
         
     def experrors(self):

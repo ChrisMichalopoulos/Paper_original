@@ -6,7 +6,7 @@ import sqlite3
 ### Read sqlite query results into a pandas DataFrame ### 
 
 con = sqlite3.connect("data1.db")
-df = pd.read_sql_query("SELECT * from timeseries_ESYS LIMIT 10000", con)
+df = pd.read_sql_query("SELECT * from timeseries_ESYS LIMIT 100000", con)
 con.close()
 test_sample=df.sample(frac=0.25)
 
@@ -41,7 +41,7 @@ last_val=10 # the number of last values that are considered
 
 for i in range(info.shape[0]):
     if actual_data[i,-last_val:].mean() > threshold:
-        if actual_data[i,-1] >0.05:
+        if not np.any(actual_data[i,-last_val:] == 0) and not np.any(actual_data[i,-last_val:] == np.nan) :
             if not np.isnan(np.sum(actual_data[i,:])):
                 index.append(i)
         
