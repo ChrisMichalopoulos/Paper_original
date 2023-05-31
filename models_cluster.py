@@ -7,7 +7,7 @@ from sklearn.mixture import GaussianMixture
 import math as ma
 
 def  KNNtimeseries(mesured,train_set,test_set,k=15,mean=True):
-    @jit(nopython=True,parallel=True)
+    #@jit(nopython=True,parallel=True)
     def KNNregressor(train_set,test_set,k=15,mean=True,n=1):
         
         #data separtation
@@ -25,7 +25,6 @@ def  KNNtimeseries(mesured,train_set,test_set,k=15,mean=True):
         rangematrix  = np.zeros((y, x))
         nearest      = np.full((y, x), -1)
         predict      = np.zeros((x,))
-    
         
         
         
@@ -37,15 +36,27 @@ def  KNNtimeseries(mesured,train_set,test_set,k=15,mean=True):
                 predict[i]=np.sum(knowned_result[nearest[:k,i]])/k
             
             
-        # else:
-        #     for i in prange(x):
-        #         for ii in range(y):
-        #             rangematrix[ii,i]=np.linalg.norm(compare[ii,:]-compared[i,:])
-        #         nearest[:,i]=np.argsort(rangematrix[:,i])
+        else:
+            for i in prange(x):
+                corell       = np.zeros((y,))
+                for ii in range(y):
+                    rangematrix[ii,i]=np.linalg.norm(compare[ii,:]-compared[i,:])
+                    
+                    corell[ii]=np.corrcoef(compare[ii,:], compared[i,:])[0, 1]
+                    if corell[ii]==np.nan:
+                        corell[ii]=0
+                nearest[:,i]=np.argsort(rangematrix[:,i])
                 
-        #         nearest_temp=nearest[:k,i]
+
+                nearest_temp=nearest[:k,i]
                 
-        #         predict[i]=np.sum(knowned_result[nearest_temp]*(rangematrix[nearest_temp,i]**(-n)/np.sum(rangematrix[nearest_temp,i]**(-n)) ))
+                predict[i]=np.sum(knowned_result[nearest_temp] * corell[nearest_temp]          )/np.sum(corell[nearest_temp])
+ 
+                                                                                                                      
+                
+                
+                
+               
         
         return predict
         

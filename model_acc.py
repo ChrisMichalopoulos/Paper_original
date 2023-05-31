@@ -19,8 +19,8 @@ class errors():
 
     def sMAPE(self,factor=2):
         N=self.a.shape[1]
-        summ=np.sum(abs(self.a-self.p)*factor/(self.a+self.p),axis=1    )
-        return summ/N
+        summ=abs(self.a-self.p)*factor/(self.a+self.p)
+        return summ
         
     def MAPE(self):
         N=self.a.shape[1]
