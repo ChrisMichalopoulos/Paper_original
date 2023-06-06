@@ -7,7 +7,7 @@ from sklearn.mixture import GaussianMixture
 import math as ma
 
 def  KNNtimeseries(mesured,train_set,test_set,k=15,mean=True):
-    #@jit(nopython=True,parallel=True)
+    @jit(nopython=True,parallel=True)
     def KNNregressor(train_set,test_set,k=15,mean=True,n=1):
         
         #data separtation

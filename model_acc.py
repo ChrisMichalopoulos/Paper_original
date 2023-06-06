@@ -27,5 +27,42 @@ class errors():
         summ=np.sum(abs((self.a-self.p)/self.a),axis=1)
         return summ/N
         
+    
+    def MAE(self):
+        N=self.a.shape[1]
+        summ=np.sum(abs(self.a-self.p),axis=1)
+        return summ/N
+        
     def experrors(self):
-        return [self.RMSE(),self.TotalSum(),self.MAPE(),self.sMAPE()]
+        return [self.RMSE(),self.TotalSum(),self.MAPE(),self.sMAPE(),self.MAE()]
+    
+    
+    
+    
+    
+    
+def normalization(timeseries):
+    
+    x,y=timeseries.shape
+    
+    normalized=np.ones((x,y))*-1
+    statistical=[]
+    for i in range(x):
+        average=np.average(timeseries[i,:])
+        std=np.std(timeseries[i,:])
+        normalized[i,:]=(timeseries[i,:]-average)/std
+        statistical.append((average,std))
+        
+    
+    return normalized , statistical
+        
+        
+def denormalization(timeseries,stats):
+    x,y=timeseries.shape
+    denormalizes=np.ones((x,y))*-1
+    
+    for i in range(x):
+        denormalizes[i,:]=timeseries[i,:]*stats[i][1]+stats[i][0]
+        
+    
+    return denormalizes

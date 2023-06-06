@@ -24,13 +24,13 @@ class CustomError(Exception):
     pass
 
 
-def Naive(train_set,test_set,coef=(1)):
+def Naive(train_set,test_set,coef=(1),seasonality=12):
     #HELP FUNCTION
-    def Naive_help(tim_ser,coef):
+    def Naive_help(tim_ser,coef,seasonality):
         if sum(coef)>=1.001 or sum(coef)<=0.999: raise CustomError("Πρέπει το sum(coef) να είναι =1")
         result=np.zeros([tim_ser.shape[0],])
         for i in range(len(coef)):
-            result += tim_ser[:,-4*(i+1)]* coef[i]
+            result += tim_ser[:,-seasonality*(i+1)]* coef[i]
             
         
         return result
@@ -44,11 +44,11 @@ def Naive(train_set,test_set,coef=(1)):
     
     time_series=np.concatenate((train_set,test_set),axis=1)
     for i in range(y):
-        results[:,i]= Naive_help(time_series[:,:i+v],coef)
+        results[:,i]= Naive_help(time_series[:,:i+v],coef,seasonality=12)
     
     er=m.errors(test_set,results)
     
-    return er.experrors()
+    return er.experrors(),results
 
 
 
@@ -63,6 +63,8 @@ def arima(train_set,test_set,order=(1,1,1)):
     
     results=np.zeros([x,y])
     
+    # train_set,stat=m.normalization(train_set)
+    
     for i in tqdm(range(x)):
         train=list(train_set[i,:])
         for ii in range(y):
@@ -71,10 +73,11 @@ def arima(train_set,test_set,order=(1,1,1)):
             results[i,ii]=m_f.forecast()
             train.append(test_set[i,ii])
     
+    # results= m.denormalization(results,stat)
     
     er=m.errors(test_set,results)
     
-    return er.experrors()       
+    return er.experrors(), results     
             
 
 

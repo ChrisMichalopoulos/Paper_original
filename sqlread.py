@@ -6,7 +6,7 @@ import sqlite3
 ### Read sqlite query results into a pandas DataFrame ### 
 
 con = sqlite3.connect("data1.db")
-df = pd.read_sql_query("SELECT * from timeseries_ESYS LIMIT 10000", con)
+df = pd.read_sql_query("SELECT * from timeseries_ESYS order by random() LIMIT 10000", con)
 con.close()
 test_sample=df.sample(frac=0.25)
 
@@ -35,7 +35,7 @@ array=data2.values
 
 info=array[:,:5]
 actual_data=array[:,5:]
-threshold=5
+threshold=0.5
 index=[]
 last_val=15 # the number of last values that are considered
 
@@ -43,29 +43,32 @@ for i in range(info.shape[0]):
     if actual_data[i,-last_val:].mean() > threshold:
         if not np.prod(actual_data[i,-last_val:])<=0.01:
             if not np.isnan(np.sum(actual_data[i,:])):
-                if not np.any(actual_data[i,-last_val:] == np.nan) :
-                    index.append(i)
+                if not np.any(actual_data[i,:] == np.nan) :
+                    if actual_data[i,-last_val:].mean()<=1000000:
+                        index.append(i)
         
     
     
 new_info=info[index,:]
 new_actual_data=actual_data[index,:]
 
-"""3month base from 1 month"""
-[u,v]= new_actual_data.shape
+# """3month base from 1 month"""
+# [u,v]= new_actual_data.shape
 
-v3=int(v/3)
+# v3=int(v/3)
 
-mvalues = np.zeros((u,v3))
+# mvalues = np.zeros((u,v3))
 
-for i in range(v3):
-    mvalues[:,i]= np.sum(new_actual_data[:,3*i:3*i+3],axis=1)
+# for i in range(v3):
+#     mvalues[:,i]= np.sum(new_actual_data[:,3*i:3*i+3],axis=1)
     
     
-finished_data=np.concatenate((new_info,mvalues),axis=1)
+# finished_data=np.concatenate((new_info,mvalues),axis=1)
 
-with open("test_data_final.pkl","wb") as f:
-     pickle.dump(finished_data,f)
+# with open("test_data_final_low_res.pkl","wb") as f:
+#      pickle.dump(finished_data,f)
     
-    
+finished_data=np.concatenate((new_info,new_actual_data),axis=1)
+with open("test_data_1month_2.pkl","wb") as f:
+    pickle.dump(finished_data,f)
 
