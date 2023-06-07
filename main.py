@@ -6,7 +6,7 @@ import dartss as d
 """DATA READ"""
 
 #DATA READ
-with open("test_data_1month_2.pkl","rb") as f:
+with open("test_data_final_low_res.pkl","rb") as f:
      data=pickle.load(f)
 
 # INFO AND DATA SEPERATION

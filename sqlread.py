@@ -6,7 +6,7 @@ import sqlite3
 ### Read sqlite query results into a pandas DataFrame ### 
 
 con = sqlite3.connect("data1.db")
-df = pd.read_sql_query("SELECT * from timeseries_ESYS order by random() LIMIT 10000", con)
+df = pd.read_sql_query("SELECT * from timeseries_ESYS order by random() LIMIT 2000000", con)
 con.close()
 test_sample=df.sample(frac=0.25)
 
@@ -65,10 +65,10 @@ new_actual_data=actual_data[index,:]
     
 # finished_data=np.concatenate((new_info,mvalues),axis=1)
 
-# with open("test_data_final_low_res.pkl","wb") as f:
-#      pickle.dump(finished_data,f)
+# with open("test_data_3m.pkl","wb") as f:
+#       pickle.dump(finished_data,f)
     
 finished_data=np.concatenate((new_info,new_actual_data),axis=1)
-with open("test_data_1month_2.pkl","wb") as f:
+with open("test_data_1m.pkl","wb") as f:
     pickle.dump(finished_data,f)
 
