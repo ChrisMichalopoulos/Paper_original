@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 
-name="arima"
+name="GMM"
 with open(name+".pkl","rb") as f:
     data=pickle.load(f)
         
-lis=np.random.randint(0,data[0].shape[0]+1,size=10)
+lis=np.random.randint(0,data[0].shape[0]+1,size=20)
 
 train=data[0][lis]
 

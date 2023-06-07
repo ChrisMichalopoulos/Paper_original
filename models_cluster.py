@@ -42,9 +42,8 @@ def  KNNtimeseries(mesured,train_set,test_set,k=15,mean=True):
                 for ii in range(y):
                     rangematrix[ii,i]=np.linalg.norm(compare[ii,:]-compared[i,:])
                     
-                    corell[ii]=np.corrcoef(compare[ii,:], compared[i,:])[0, 1]
-                    if corell[ii]==np.nan:
-                        corell[ii]=0
+                    corell[ii]= np.dot(compare[ii,:], compared[i,:]) / (np.linalg.norm(compare[ii,:]) * np.linalg.norm(compared[i,:]))
+                    
                 nearest[:,i]=np.argsort(rangematrix[:,i])
                 
 
@@ -172,12 +171,12 @@ def GMM(mesured,train_set,test_set,k=15,cov="spherical"):
     u,v=train_set.shape
     results=results=np.zeros((x,y))
     time_series=np.concatenate((train_set,test_set),axis=1)
-    for i in range(y):
+    for i in tqdm(range(y)):
         
-        Filled=time_series[:,i+v-3:i+v+1]
+        Filled=time_series[:,i+v-3:i+v+1].copy()
         Filled[:,3]=0
         
-        gmm=GaussianMixture(n_components=k,n_init=1,max_iter=10000000000000,tol=1e-5,covariance_type=cov).fit(mesured[:,i+v-3:i+v+1])
+        gmm=GaussianMixture(n_components=k,n_init=1,max_iter=10000000000000,tol=1e-5,covariance_type=cov,init_params="random_from_data").fit(mesured[:,i+v-3:i+v+1])
         
         mixture=(gmm.means_,gmm.covariances_,gmm.weights_)
         rslts=fill_matrix(Filled,mixture,cov)
@@ -190,7 +189,7 @@ def GMM(mesured,train_set,test_set,k=15,cov="spherical"):
             
     er=m.errors(test_set,results)
     
-    return er.experrors()
+    return er.experrors() , results
         
     
     

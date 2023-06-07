@@ -35,9 +35,19 @@ def autoarima1m(train_set,test_set):
             
             results[i,ii:ii+3]=model.predict(n=3).values().ravel()
             train.append(test_set[i,ii])
+        
+    #3month base    
     
+    v3=int(y/3)
     
-    er=m.errors(test_set,results)
+    mvalues = np.zeros((x,v3))
+    actual_values = np.zeros((x,v3))
+    for i in range(v3):
+        mvalues[:,i]= np.sum(results[:,3*i:3*i+3],axis=1)   
+        actual_values[:,i]=np.sum(test_set[:,3*i:3*i+3],axis=1)
+        
+        
+    er=m.errors(actual_values,mvalues)
     
     return er.experrors(), results
 
@@ -61,10 +71,21 @@ def lstm1m(train_set,test_set):
             results[i,ii:ii+3]=model.predict(n=3).values().ravel()
             train.append(test_set[i,ii])
     
+    #3month base    
     
-    er=m.errors(test_set,results)
+    v3=int(y/3)
+    
+    mvalues = np.zeros((x,v3))
+    actual_values = np.zeros((x,v3))
+    for i in range(v3):
+        mvalues[:,i]= np.sum(results[:,3*i:3*i+3],axis=1)   
+        actual_values[:,i]=np.sum(test_set[:,3*i:3*i+3],axis=1)
+        
+        
+    er=m.errors(actual_values,mvalues)
     
     return er.experrors(), results
+
 
 
 

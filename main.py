@@ -6,7 +6,7 @@ import dartss as d
 """DATA READ"""
 
 #DATA READ
-with open("test_data_final_low_res.pkl","rb") as f:
+with open("test_sample_3m.pkl","rb") as f:
      data=pickle.load(f)
 
 # INFO AND DATA SEPERATION
@@ -15,14 +15,14 @@ timeseries=np.float64(data[:,5:])
 
 
 #SEPERATION BETWEEN TRAIN AND TEST SET
-mesured_coef=0.5
+mesured_coef=0.8
 split_index = int(timeseries.shape[0] * mesured_coef)
 
 mesured_data=timeseries[:split_index,:]
 unmesured_data=timeseries[split_index:,:] 
 
 
-coef=0.05  #expample 0.1 stands for 10% test set
+coef=0.08  #expample 0.1 stands for 10% test set
 size=timeseries.shape[1]
 train_colum=int((1-coef)*size)
 
@@ -35,7 +35,7 @@ train_set,test_set=np.split(unmesured_data,[train_colum],axis=1)
 
 #NAIVE
 
-naiv= m.Naive (train_set,test_set,coef=(1,0))
+# naiv= m.Naive (train_set,test_set,coef=(1,0))
 
 # with open("naive.pkl","wb") as f:
 #     pickle.dump([train_set,naiv[1],test_set],f)
@@ -70,7 +70,7 @@ naiv= m.Naive (train_set,test_set,coef=(1,0))
 #KNN   
 
 
-# knn=  mc.KNNtimeseries(mesured_data,train_set,test_set,k=30,mean=True)
+# knn=  mc.KNNtimeseries(mesured_data,train_set,test_set,k=30,mean=False)
 
 
 # print(np.average(knn[3]))
@@ -79,5 +79,7 @@ naiv= m.Naive (train_set,test_set,coef=(1,0))
 
 #GMM
 
-# gmm=mc.GMM(mesured_data,train_set,test_set,k=30,cov="full")
+gmm=mc.GMM(mesured_data,train_set,test_set,k=30,cov="full")
+with open("GMM.pkl","wb") as f:
+     pickle.dump([train_set,gmm[1],test_set],f)
 # print(np.average(gmm[3]))    #DEBUGGING

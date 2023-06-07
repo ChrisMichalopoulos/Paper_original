@@ -6,7 +6,7 @@ import sqlite3
 ### Read sqlite query results into a pandas DataFrame ### 
 
 con = sqlite3.connect("data1.db")
-df = pd.read_sql_query("SELECT * from timeseries_ESYS order by random() LIMIT 2000000", con)
+df = pd.read_sql_query("SELECT * from timeseries_ESYS order by random() LIMIT 20000", con)
 con.close()
 test_sample=df.sample(frac=0.25)
 
@@ -52,23 +52,23 @@ for i in range(info.shape[0]):
 new_info=info[index,:]
 new_actual_data=actual_data[index,:]
 
-# """3month base from 1 month"""
-# [u,v]= new_actual_data.shape
+"""3month base from 1 month"""
+[u,v]= new_actual_data.shape
 
-# v3=int(v/3)
+v3=int(v/3)
 
-# mvalues = np.zeros((u,v3))
+mvalues = np.zeros((u,v3))
 
-# for i in range(v3):
-#     mvalues[:,i]= np.sum(new_actual_data[:,3*i:3*i+3],axis=1)
+for i in range(v3):
+    mvalues[:,i]= np.sum(new_actual_data[:,3*i:3*i+3],axis=1)
     
     
-# finished_data=np.concatenate((new_info,mvalues),axis=1)
+finished_data=np.concatenate((new_info,mvalues),axis=1)
 
-# with open("test_data_3m.pkl","wb") as f:
-#       pickle.dump(finished_data,f)
+with open("test_sample_3m.pkl","wb") as f:
+      pickle.dump(finished_data,f)
     
-finished_data=np.concatenate((new_info,new_actual_data),axis=1)
-with open("test_data_1m.pkl","wb") as f:
-    pickle.dump(finished_data,f)
+# finished_data=np.concatenate((new_info,new_actual_data),axis=1)
+# with open("test_sample_3m.pkl","wb") as f:
+#     pickle.dump(finished_data,f)
 
