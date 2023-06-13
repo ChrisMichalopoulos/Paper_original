@@ -70,6 +70,8 @@ def lstm1m(train_set,test_set):
             
             results[i,ii:ii+3]=model.predict(n=3).values().ravel()
             train.append(test_set[i,ii])
+            train.append(test_set[i,ii+1])
+            train.append(test_set[i,ii+2])  #DO NOT KNOW IF ITS TRUE
     
     #3month base    
     
