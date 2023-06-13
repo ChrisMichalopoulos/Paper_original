@@ -90,12 +90,14 @@ def sarima(train_set,test_set,seasonality=(1,1,1,4),order=(1,1,1)):
     for i in tqdm(range(x)):
         train=list(train_set[i,:])
         for ii in range(y):
-            model=ARIMA(train,order = order,seasonal_order=seasonality)
-            m_f=model.fit()
-            results[i,ii]=m_f.forecast()
+            try:
+                model=ARIMA(train,order = order,seasonal_order=seasonality)
+                m_f=model.fit()
+                results[i,ii]=m_f.forecast()
+                
+            except:
+                results[i,ii]=0
             train.append(test_set[i,ii])
-    
-    
     er=m.errors(test_set,results)
     
     return er.experrors()          
@@ -161,7 +163,7 @@ def average(train_set,test_set):
     
     er=m.errors(test_set,results)
     
-    return er.experrors()
+    return er.experrors(), results 
     
         
         

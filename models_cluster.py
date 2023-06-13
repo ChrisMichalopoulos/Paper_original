@@ -76,7 +76,7 @@ def  KNNtimeseries(mesured,train_set,test_set,k=15,mean=True):
         
     er=m.errors(test_set,results)
     
-    return er.experrors()
+    return er.experrors() , results
         
 def GMM(mesured,train_set,test_set,k=15,cov="spherical"):     
     def fill_matrix(X, mixture,cov):

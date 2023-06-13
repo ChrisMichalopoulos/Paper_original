@@ -6,7 +6,7 @@ import darts_1m as d
 """DATA READ"""
 
 #DATA READ
-with open("test_data_1month_2.pkl","rb") as f:
+with open("test_data_1m.pkl","rb") as f:
      data=pickle.load(f)
 
 # INFO AND DATA SEPERATION
@@ -30,13 +30,13 @@ train_set,test_set=np.split(unmesured_data,[train_colum],axis=1)
 
 
 
-autoarim= d.autoarima1m(train_set,test_set)
+autoarim= d.autoarima1m(train_set[:10000,:],test_set[:10000,:])
 
 
 
 
 
-# lstm=d.lstm1m(train_set[:100,:],test_set[:100,:])
+# lstm=d.lstm1m(train_set[:10000,:],test_set[:10000,:])
 
 
 
