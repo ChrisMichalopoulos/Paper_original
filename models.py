@@ -100,7 +100,7 @@ def sarima(train_set,test_set,seasonality=(1,1,1,4),order=(1,1,1)):
             train.append(test_set[i,ii])
     er=m.errors(test_set,results)
     
-    return er.experrors()          
+    return er.experrors(), results    
     
     
     

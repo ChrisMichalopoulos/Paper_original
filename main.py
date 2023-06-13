@@ -6,7 +6,7 @@ import dartss as d
 """DATA READ"""
 
 #DATA READ
-with open("test_data_3m.pkl","rb") as f:
+with open("test_sample_3m.pkl","rb") as f:
      data=pickle.load(f)
 
 # INFO AND DATA SEPERATION
@@ -36,11 +36,11 @@ print("start")
 
 #NAIVE
 
-naiv= m.Naive (train_set,test_set,coef=(1,0))
+# naiv= m.Naive (train_set,test_set,coef=(1,0))
 
-with open("naive3m.pkl","wb") as f:
-    pickle.dump([train_set,naiv[1],test_set],f)
-#ARIMA
+# with open("naive3m.pkl","wb") as f:
+#     pickle.dump([train_set,naiv[1],test_set],f)
+# #ARIMA
 
 
 
@@ -57,13 +57,16 @@ with open("naive3m.pkl","wb") as f:
 
 #AutoARIMA
 
-# autoarim= d.autoarima(train_set[:100,:],test_set[:100,:])
-# with open("autoarim3m.pkl","wb") as f:
-#     pickle.dump([train_set,autoarim[1],test_set],f)
+autoarim= d.autoarima(train_set[:10,:],test_set[:10,:])
+with open("autoarim3m.pkl","wb") as f:
+    pickle.dump([train_set[:10,:],autoarim[1],test_set[:10,:]],f)
 
 #LSTM
 
 # lstm=m.LSTMM(train_set,test_set,n_pri_steps=8)
+lstm=d.lstm(train_set[:10,:],test_set[:10,:])
+with open("lstm3m.pkl","wb") as f:
+    pickle.dump([train_set[:10,:],autoarim[1],test_set[:10,:]],f)
 
 
 #average
@@ -78,10 +81,10 @@ with open("naive3m.pkl","wb") as f:
 #KNN   
 
 
-knn=  mc.KNNtimeseries(mesured_data[:100000,:],train_set[:30000,:],test_set[:30000,:],k=40,mean=True)
+# knn=  mc.KNNtimeseries(mesured_data[:100000,:],train_set[:30000,:],test_set[:30000,:],k=40,mean=True)
 
-with open("knn3m.pkl","wb") as f:
-    pickle.dump([train_set,knn[1],test_set],f)
+# with open("knn3m.pkl","wb") as f:
+#     pickle.dump([train_set,knn[1],test_set],f)
 
 
     

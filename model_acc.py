@@ -38,9 +38,27 @@ class errors():
     
     
     
-    
-    
-    
+    def plotperquarter(self,month=3):
+        
+        if month ==3:
+            summ=abs(self.a-self.p)/self.a
+            return summ
+        else:
+            [u,v]= self.a.shape
+
+            v3=int(v/3)
+
+            actual  = np.zeros((u,v3))
+            forcasts= np.zeros((u,v3))
+
+            for i in range(v3):
+                actual[:,i]= np.sum(self.a[:,3*i:3*i+3],axis=1)
+                forcasts[:,i]= np.sum(self.p[:,3*i:3*i+3],axis=1)
+            summ=abs(actual-forcasts)/actual
+            
+            total=np.sum(self.a-self.p,axis=0)
+            return summ,total
+
 def normalization(timeseries):
     
     x,y=timeseries.shape

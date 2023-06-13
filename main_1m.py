@@ -31,7 +31,8 @@ train_set,test_set=np.split(unmesured_data,[train_colum],axis=1)
 
 
 autoarim= d.autoarima1m(train_set[:10000,:],test_set[:10000,:])
-
+with open("arima3m.pkl","wb") as f:
+    pickle.dump([train_set[:10000,:],autoarim[1],test_set[:10000,:]],f)
 
 
 
