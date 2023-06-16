@@ -7,12 +7,12 @@ import model_acc as m
 
 #Data read from files
 
-with open("arima3m.pkl","rb") as f:
+with open("average3m.pkl","rb") as f:
     data1=pickle.load(f)
-    
-arim=m.errors(data1[2],data1[1])
-    
-arima= arim.experrors()
+
+aver=m.errors(data1[2],data1[1])
+
+average=aver.experrors()
 
 with open("naive3m.pkl","rb") as f:
     data1=pickle.load(f)
@@ -21,18 +21,27 @@ naiv=m.errors(data1[2],data1[1])
     
 naive= naiv.experrors()
 
-with open("average3m.pkl","rb") as f:
+
+with open("arima3m.pkl","rb") as f:
     data1=pickle.load(f)
+    
+arim=m.errors(data1[2],data1[1])
+    
+arima= arim.experrors()
 
-aver=m.errors(data1[2],data1[1])
 
-average=aver.experrors()
+with open("sarima3m.pkl","rb") as f:
+    data1=pickle.load(f)
+    
+sarim=m.errors(data1[2],data1[1])
+    
+sarima= sarim.experrors()
 
 
 
 with open("autoarim3m.pkl","rb") as f:
     data1=pickle.load(f)
-#sarima must rerun only total sum here
+
 auto=m.errors(data1[2],data1[1])
 
 autoarima=auto.experrors()
@@ -44,7 +53,14 @@ with open("lstm3m.pkl","rb") as f:
 
 lst=m.errors(data1[2],data1[1])
 
-lstm=lst.experrors()
+lstm=lst.experrors()   #it is not finished yet waiting for the final data
+
+with open("knn3m.pkl", "rb") as f:
+    data1=pickle.load(f)
+
+knn=m.errors(data1[2][:30000,:],data1[1])
+
+knner=knn.experrors()
 
 
 plt.style.use('_mpl-gallery')
@@ -54,15 +70,14 @@ plt.style.use('_mpl-gallery')
 
 
 
-data3 = np.random.normal(0, 1.5, 100)
-data4 = np.random.normal(0, 1, 100)
+
 
 # Combine the data into a list
 #boxblots
-data = [arima[2], naive[2], average[2],autoarima[2],lstm[2]]
+data = [ average[2], naive[2],arima[2],sarima[2],autoarima[2],lstm[2],knner[2]]
 
 # Create a figure and axis
-fig, ax = plt.subplots(figsize=(8, 6), dpi=100)
+fig, ax = plt.subplots(figsize=(8, 7), dpi=100)
 
 # Create the boxplot
 ax.boxplot(data,widths=0.5, patch_artist=True,
@@ -77,7 +92,7 @@ ax.boxplot(data,widths=0.5, patch_artist=True,
 
 
 # Set the x-axis tick labels
-ax.set_xticklabels(['Arima', 'Naive', 'Average',"autoarima","lstm"])
+ax.set_xticklabels(["average","Naive","ARIMA","SARIMA","AutoARIMA","LSTM","KNN"])
 
 # Set the y-axis label
 ax.set_ylabel('Value')
@@ -89,26 +104,29 @@ ax.set_title('MAPE Error - 3 months')
 # Show the plot
 plt.show()
 
-"-------------------------------------------------------------------------------------------"
+"----------------------------------------------------------------------------------------------------------------------"
 
 #Bar plots
 
-x=["Naive","Arima","Average","Sarima"]
-y=[np.sum(naive[1]),np.sum(arima[1]),np.sum(average[1]),np.sum(data1[1])]
+x=["Average","Naive","ARIMA","SARIMA", "AutoARIMA","LSTM","KNN"]
+y=[average[1],naive[1],arima[1],sarima[1],autoarima[1],lstm[1],knner[1]]
 
 fig1, ax1 = plt.subplots(dpi=100,figsize=(8, 6))
 ax1.bar(x, y, color='gray', edgecolor='white', linewidth=0.5, alpha=1)
+
+for i, value in enumerate(y):
+    plt.text(i,value,str(int(value)),ha="center",va="bottom")
 
 ax.set_xlabel('Categories')
 ax.set_ylabel('Models')
 
 
-ax1.set_title('Bar Plot Example')
+ax1.set_title('Total Sum')
 
 plt.show()
 
-"-------------------------------------------------------------------------------------------"
-"-------------------------------------------------------------------------------------------"
+"----------------------------------------------------------------------------------------------------------------------"
+"----------------------------------------------------------------------------------------------------------------------"
 
 """#Data reads for 1 month predictions"""
 
@@ -162,7 +180,7 @@ plt.show()
 
 
 
-"-------------------------------------------------------------------------------------------"
+"----------------------------------------------------------------------------------------------------------------------"
 
 #Bar plots
 
@@ -170,7 +188,7 @@ u=["Naive","Average","Autoarima"]
 v=[np.sum(naive[1]),np.sum(average[1]),np.sum(data1[0][1])]
 
 fig3, ax3 = plt.subplots(dpi=100,figsize=(8, 6))
-ax3.bar(u, v, color='blue', edgecolor='white', linewidth=0.5, alpha=1)
+ax3.bar(u, v, color='grey', edgecolor='white', linewidth=0.5, alpha=1)
 
 ax3.set_xlabel('Models')
 ax3.set_ylabel('Values')
@@ -182,8 +200,8 @@ plt.show()
 
 
 
-"-------------------------------------------------------------------------------------------"
-"-------------------------------------------------------------------------------------------"
+"----------------------------------------------------------------------------------------------------------------------"
+"----------------------------------------------------------------------------------------------------------------------"
 """seasonality performance"""
 
 """3month period"""
@@ -196,28 +214,14 @@ plt.style.use('_mpl-gallery')
 
 
 
-
-
-da1 = np.random.normal(0, 1.5, 100)
-da2 = np.random.normal(0, 2, 100)
-da3= np.random.normal(0, 3, 100)
-da4= np.random.normal(0, 1, 100)
-
-da11 = np.random.normal(0, 1.5, 100)
-da12 = np.random.normal(0, 3.5, 100)
-da13 = np.random.normal(0, 1, 100)
-da14 = np.random.normal(0, 2, 100)
-
-
-
 colors=["Black","blue","green","Grey"]
 
 # Define the data for the bar plot
-categories = ['Model 1', 'Model 2']
-values1 = [np.average(da1), np.average(da11)]
-values2 = [np.average(da2), np.average(da12)]
-values3 = [np.average(da3), np.average(da13)]
-values4 = [np.average(da4), np.average(da14)]
+categories = ['Average', 'Naive',"ARIMA","SARIMA","AutoARIMA","LSTM","KNN"]
+values1 = [average[4][1],naive[4][1],arima[4][1],sarima[4][1],autoarima[4][1],lstm[4][1],knner[4][1]]
+values2 = [average[4][2],naive[4][2],arima[4][2],sarima[4][2],autoarima[4][2],lstm[4][2],knner[4][2]]
+values3 = [average[4][3],naive[4][3],arima[4][3],sarima[4][3],autoarima[4][3],lstm[4][3],knner[4][3]]
+values4 = [average[4][0],naive[4][0],arima[4][0],sarima[4][0],autoarima[4][0],lstm[4][0],knner[4][0]]
 
 # Set the width of each bar
 bar_width = 0.2
@@ -226,13 +230,13 @@ bar_width = 0.2
 positions = np.arange(len(categories))
 
 # Create a figure and axis
-fig, ax = plt.subplots(dpi=1000)
+fig, ax = plt.subplots(dpi=1000,figsize=(8, 6))
 
 # Create the bars for each category
-ax.bar(positions - bar_width, values1, width=bar_width, label='Bar 1',color=colors[0])
-ax.bar(positions, values2, width=bar_width, label='Bar 2',color=colors[1])
-ax.bar(positions + bar_width, values3, width=bar_width, label='Bar 3',color=colors[2])
-ax.bar(positions + (2 * bar_width), values4, width=bar_width, label='Bar 4',color=colors[3])
+ax.bar(positions - bar_width, values1, width=bar_width, label='1st quarter',color=colors[0])
+ax.bar(positions, values2, width=bar_width, label='2nd quarter',color=colors[1])
+ax.bar(positions + bar_width, values3, width=bar_width, label='3rd quarter',color=colors[2])
+ax.bar(positions + (2 * bar_width), values4, width=bar_width, label='4th quarter',color=colors[3])
 
 # Set the x-axis tick positions and labels
 ax.set_xticks(positions)
@@ -242,7 +246,7 @@ ax.set_xticklabels(categories)
 ax.set_ylabel('Value')
 
 # Set the title
-ax.set_title('Mape')
+ax.set_title('MAPE')
 
 # Add a legend
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
@@ -253,7 +257,7 @@ plt.show()
 
 
 
-"-------------------------------------------------------------------------------------------"
+"----------------------------------------------------------------------------------------------------------------------"
 
 
 

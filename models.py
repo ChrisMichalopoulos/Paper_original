@@ -1,3 +1,4 @@
+
 """MODELS"""
 import numpy as np
 
@@ -63,7 +64,6 @@ def arima(train_set,test_set,order=(1,1,1)):
     
     results=np.zeros([x,y])
     
-    # train_set,stat=m.normalization(train_set)
     
     for i in tqdm(range(x)):
         train=list(train_set[i,:])
@@ -73,7 +73,6 @@ def arima(train_set,test_set,order=(1,1,1)):
             results[i,ii]=m_f.forecast()
             train.append(test_set[i,ii])
     
-    # results= m.denormalization(results,stat)
     
     er=m.errors(test_set,results)
     
