@@ -98,6 +98,7 @@ ax.boxplot(data,widths=0.5, patch_artist=True,
 # Set the x-axis tick labels
 ax.set_xticklabels(["Αverage","Naive","ARIMA","SARIMA","AutoARIMA","LSTM","KNN"])
 
+
 # Set the y-axis label
 ax.set_ylabel('Value')
 ax.set_ylim([0, 1])
