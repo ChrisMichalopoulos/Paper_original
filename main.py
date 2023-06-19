@@ -36,10 +36,10 @@ print("start")
 
 #NAIVE
 
-# naiv= m.Naive (train_set,test_set,coef=(1,0))
+naiv= m.Naive (train_set,test_set,coef=(1,0),seasonality=4)
 
-# with open("naive3m.pkl","wb") as f:
-#     pickle.dump([train_set,naiv[1],test_set],f)
+with open("naive3m.pkl","wb") as f:
+    pickle.dump([train_set,naiv[1],test_set],f)
 # #ARIMA
 
 
@@ -50,10 +50,10 @@ print("start")
 #     pickle.dump([train_set,arim[1],test_set],f)
 
 #SARIMA
-# seasonality=(1,0,1,4)
-# sarim=m.sarima(train_set,test_set,seasonality,order=(0,1,0))
-# with open("sarima3m.pkl","wb") as f:
-#     pickle.dump([train_set,sarim[1],test_set],f)
+seasonality=(1,0,1,4)
+sarim=m.sarima(train_set,test_set,seasonality,order=(0,1,0))
+with open("sarima3m.pkl","wb") as f:
+    pickle.dump([train_set,sarim[1],test_set],f)
 
 #AutoARIMA
 
@@ -63,10 +63,10 @@ print("start")
 
 #LSTM
 
-# lstm=m.LSTMM(train_set,test_set,n_pri_steps=8)
-lstm=d.lstm(train_set[:10000,:],test_set[:10000,:])
-with open("lstm3m.pkl","wb") as f:
-    pickle.dump([train_set[:10000,:],lstm[1],test_set[:10000,:]],f)
+# lstm=m.LSTMM(train_set[:10000,:],test_set[:10000,:],n_pri_steps=8,layers=75)
+# # lstm=d.lstm(train_set[:10000,:],test_set[:10000,:])
+# with open("lstm3m.pkl","wb") as f:
+#     pickle.dump([train_set[:10000,:],lstm[1],test_set[:10000,:]],f)
 
 
 #average
@@ -81,18 +81,21 @@ with open("lstm3m.pkl","wb") as f:
 #KNN   
 
 
-knn=  mc.KNNtimeseries(mesured_data[:100000,:],train_set[:30000,:],test_set[:30000,:],k=40,mean=True)
+# knn=  mc.KNNtimeseries(mesured_data[:100000,:],train_set[:30000,:],test_set[:30000,:],k=40,mean=True)
 
-with open("knn3m.pkl","wb") as f:
-    pickle.dump([train_set,knn[1],test_set],f)
+# with open("knn3m.pkl","wb") as f:
+#     pickle.dump([train_set,knn[1],test_set],f)
 
 
     
 
 
-#GMM
+# #GMM
 
-gmm=mc.GMM(mesured_data,train_set,test_set,k=30,cov="full")
-with open("GMM.pkl","wb") as f:
-      pickle.dump([train_set,gmm[1],test_set],f)
+# gmm=mc.GMM(mesured_data,train_set,test_set,k=30,cov="full")
+# with open("GMM.pkl","wb") as f:
+#       pickle.dump([train_set,gmm[1],test_set],f)
 # # print(np.average(gmm[3]))    #DEBUGGING
+
+
+    

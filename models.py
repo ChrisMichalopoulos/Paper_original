@@ -27,7 +27,7 @@ class CustomError(Exception):
 
 def Naive(train_set,test_set,coef=(1),seasonality=12):
     #HELP FUNCTION
-    def Naive_help(tim_ser,coef,seasonality):
+    def Naive_help(tim_ser,coef,seasonal):
         if sum(coef)>=1.001 or sum(coef)<=0.999: raise CustomError("Πρέπει το sum(coef) να είναι =1")
         result=np.zeros([tim_ser.shape[0],])
         for i in range(len(coef)):
@@ -45,7 +45,7 @@ def Naive(train_set,test_set,coef=(1),seasonality=12):
     
     time_series=np.concatenate((train_set,test_set),axis=1)
     for i in range(y):
-        results[:,i]= Naive_help(time_series[:,:i+v],coef,seasonality=12)
+        results[:,i]= Naive_help(time_series[:,:i+v],coef,seasonal=seasonality)
     
     er=m.errors(test_set,results)
     
@@ -104,7 +104,7 @@ def sarima(train_set,test_set,seasonality=(1,1,1,4),order=(1,1,1)):
     
     
 
-def LSTMM(train_set,test_set,n_pri_steps=8):
+def LSTMM(train_set,test_set,n_pri_steps=8,layers=100):
     
     x,y=test_set.shape
     u,v=train_set.shape
@@ -129,13 +129,13 @@ def LSTMM(train_set,test_set,n_pri_steps=8):
         #define model
         
         model=Sequential()
-        model.add(LSTM(100,input_shape=(n_pri_steps,1)))
+        model.add(LSTM(layers,input_shape=(n_pri_steps,1)))
         model.add(Dense(1))
         model.compile(optimizer="adam",loss="mse")
         
         #model fit
         
-        model.fit(generator,epochs=20,verbose=0)
+        model.fit(generator,epochs=50,verbose=0)
         
         for ii in range(y):
             sc_predict=model.predict(time_series[v-n_pri_steps+ii:v+ii].reshape((1,n_pri_steps,1)))
@@ -145,7 +145,7 @@ def LSTMM(train_set,test_set,n_pri_steps=8):
         
     er=m.errors(test_set,results)
     
-    return er.experrors() 
+    return er.experrors() , results
 
 
 

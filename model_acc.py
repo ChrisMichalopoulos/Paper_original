@@ -37,7 +37,7 @@ class errors():
         summ=np.average(abs((self.a-self.p)/self.a),axis=0)
         return summ
     def experrors(self):
-        return [self.RMSE(),self.TotalSum(),self.MAPE(),self.sMAPE(),self.MAPE2()]
+        return [self.RMSE(),self.TotalSum(),self.MAPE(),self.sMAPE(),self.MAPE2(),self.MAE()]
     
     
     

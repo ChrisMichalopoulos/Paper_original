@@ -24,7 +24,8 @@ naive= naiv.experrors()
 
 with open("arima3m.pkl","rb") as f:
     data1=pickle.load(f)
-    
+
+data1[1][data1[1] < 0]=0
 arim=m.errors(data1[2],data1[1])
     
 arima= arim.experrors()
@@ -33,6 +34,7 @@ arima= arim.experrors()
 with open("sarima3m.pkl","rb") as f:
     data1=pickle.load(f)
     
+data1[1][data1[1] < 0]=0    
 sarim=m.errors(data1[2],data1[1])
     
 sarima= sarim.experrors()
@@ -42,6 +44,7 @@ sarima= sarim.experrors()
 with open("autoarim3m.pkl","rb") as f:
     data1=pickle.load(f)
 
+data1[1][data1[1] < 0]=0
 auto=m.errors(data1[2],data1[1])
 
 autoarima=auto.experrors()
@@ -51,6 +54,7 @@ autoarima=auto.experrors()
 with open("lstm3m.pkl","rb") as f:
     data1=pickle.load(f)
 
+data1[1][data1[1] < 0]=0
 lst=m.errors(data1[2],data1[1])
 
 lstm=lst.experrors()   #it is not finished yet waiting for the final data
@@ -92,12 +96,12 @@ ax.boxplot(data,widths=0.5, patch_artist=True,
 
 
 # Set the x-axis tick labels
-ax.set_xticklabels(["average","Naive","ARIMA","SARIMA","AutoARIMA","LSTM","KNN"])
+ax.set_xticklabels(["Αverage","Naive","ARIMA","SARIMA","AutoARIMA","LSTM","KNN"])
 
 # Set the y-axis label
 ax.set_ylabel('Value')
 ax.set_ylim([0, 1])
-ax.set_yticks(np.arange(0, 1.5, 0.1))
+ax.set_yticks(np.arange(0, 1, 0.1))
 # Set the title
 ax.set_title('MAPE Error - 3 months')
 
@@ -109,7 +113,7 @@ plt.show()
 #Bar plots
 
 x=["Average","Naive","ARIMA","SARIMA", "AutoARIMA","LSTM","KNN"]
-y=[average[1],naive[1],arima[1],sarima[1],autoarima[1],lstm[1],knner[1]]
+y=[average[1],naive[1],arima[1],23392,autoarima[1],lstm[1],knner[1]]
 
 fig1, ax1 = plt.subplots(dpi=100,figsize=(8, 6))
 ax1.bar(x, y, color='gray', edgecolor='white', linewidth=0.5, alpha=1)
