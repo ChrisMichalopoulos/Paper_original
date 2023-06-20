@@ -29,18 +29,18 @@ train_colum=int((1-coef)*size)
 train_set,test_set=np.split(unmesured_data,[train_colum],axis=1)
 
 
-arim=m.arima1m(train_set,test_set,order=(1,1,0))
-with open("arima1m.pkl","wb") as f:
-    pickle.dump([train_set,arim[1],test_set],f)
+# arim=m.arima1m(train_set,test_set,order=(1,1,0))
+# with open("arima1m.pkl","wb") as f:
+#     pickle.dump([train_set,arim[1],test_set],f)
 
 
 
-naiv= m.Naive (train_set,test_set,coef=(1,0),seasonality=12)
+# naiv= m.Naive (train_set,test_set,coef=(1,0),seasonality=12)
 
-seasonality=(1,0,1,4)
-sarim=m.sarima1m(train_set,test_set,order=(0,1,0),seasonality=seasonality)
-with open("sarima1m.pkl","wb") as f:
-    pickle.dump([train_set,sarim[1],test_set],f)
+# seasonality=(1,0,1,4)
+# sarim=m.sarima1m(train_set,test_set,order=(0,1,0),seasonality=seasonality)
+# with open("sarima1m.pkl","wb") as f:
+#     pickle.dump([train_set,sarim[1],test_set],f)
 
 
 
@@ -52,15 +52,15 @@ with open("sarima1m.pkl","wb") as f:
 
 
 
-# lstm=d.lstm1m(train_set[:10000,:],test_set[:10000,:])
-# with open("lstm1m.pkl","wb") as f:
-#     pickle.dump([train_set[:10000,:],lstm[1],test_set[:10000,:]],f)
+lstm=d.lstm1m(train_set[:10000,:],test_set[:10000,:])
+with open("lstm1m.pkl","wb") as f:
+    pickle.dump([train_set[:10000,:],lstm[1],test_set[:10000,:]],f)
 
 
 
 
-knn=  mc.KNNtimeseries(mesured_data,train_set,test_set,k=40,mean=True)
-with open("knn1m.pkl","wb") as f:
-    pickle.dump([train_set,knn[1],test_set],f)
+# knn=  mc.KNNtimeseries(mesured_data,train_set,test_set,k=40,mean=True)
+# with open("knn1m.pkl","wb") as f:
+#     pickle.dump([train_set,knn[1],test_set],f)
 
 

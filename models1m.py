@@ -100,3 +100,49 @@ def sarima1m(train_set,test_set,order=(1,1,1),seasonality=(1,1,1,12)):
     er=m.errors(actual_values,mvalues)
     
     return er.experrors(), results
+
+
+
+
+def LSTM1m(train_set,test_set,n_pri_steps=12,layers=100):
+    
+    x,y=test_set.shape
+    u,v=train_set.shape
+    
+    results=np.zeros([x,y])
+    
+    for i in tqdm(range(x)):
+        train=pd.Series(train_set[i,:]).to_frame()
+        #scale data
+        scaler=MinMaxScaler()
+        scaler.fit(train)       #TODO maybe its beter if we scale the hole timesiries
+        scaled_train=scaler.transform(train)
+        
+        #Batchs
+        generator=TimeseriesGenerator(scaled_train,scaled_train,length=n_pri_steps,batch_size=1) #TODO TEST BOTH SCALED
+        
+        test=pd.Series(test_set[i,:]).to_frame()
+        scaled_test=scaler.transform(test)
+        time_series=np.concatenate((scaled_train,scaled_test),axis=0)
+        
+        
+        #define model
+        
+        model=Sequential()
+        model.add(LSTM(layers,input_shape=(n_pri_steps,1)))
+        model.add(Dense(1))
+        model.compile(optimizer="adam",loss="mse")
+        
+        #model fit
+        
+        model.fit(generator,epochs=50,verbose=0)
+        
+        for ii in range(0,y,3):
+            sc_predict=model.predict(time_series[v-n_pri_steps+ii:v+ii].reshape((1,n_pri_steps,1)))
+            results[i,ii]=scaler.inverse_transform(sc_predict)
+        
+        
+        
+    er=m.errors(test_set,results)
+    
+    return er.experrors() , results
