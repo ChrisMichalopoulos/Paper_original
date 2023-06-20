@@ -2,6 +2,13 @@ import numpy as np
 from tqdm import tqdm
 from statsmodels.tsa.arima.model import ARIMA
 import model_acc as m
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.preprocessing.sequence import TimeseriesGenerator
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import LSTM
+
 
 
 def Naive(train_set,test_set,coef=(1),seasonality=12):
@@ -137,10 +144,27 @@ def LSTM1m(train_set,test_set,n_pri_steps=12,layers=100):
         
         model.fit(generator,epochs=50,verbose=0)
         
+
+
         for ii in range(0,y,3):
-            sc_predict=model.predict(time_series[v-n_pri_steps+ii:v+ii].reshape((1,n_pri_steps,1)))
-            results[i,ii]=scaler.inverse_transform(sc_predict)
-        
+            predictions=[]
+            inputt=list(time_series[v-n_pri_steps+ii:v+ii][:,0])
+            
+            
+            prediction = model.predict(np.array(inputt).reshape((1,n_pri_steps,1)),verbose=0)
+            predictions.append(prediction[0][0])
+            inputt.append(prediction[0][0])
+            
+            prediction2 = model.predict(np.array(inputt[-12:]).reshape((1,n_pri_steps,1)),verbose=0)
+            predictions.append(prediction2[0][0])
+            inputt.append(prediction2[0][0])
+            
+            prediction3=model.predict(np.array(inputt[-12:]).reshape((1,n_pri_steps,1)),verbose=0)
+            predictions.append(prediction3[0][0])
+
+            
+            
+            results[i,ii:ii+3] = scaler.inverse_transform(np.array(predictions).reshape(1, -1))
         
         
     er=m.errors(test_set,results)

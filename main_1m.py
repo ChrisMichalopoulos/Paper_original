@@ -6,7 +6,7 @@ import darts_1m as d
 """DATA READ"""
 
 #DATA READ
-with open("test_data_1m.pkl","rb") as f:
+with open("test_data_1month.pkl","rb") as f:
      data=pickle.load(f)
 
 # INFO AND DATA SEPERATION
@@ -52,7 +52,7 @@ train_set,test_set=np.split(unmesured_data,[train_colum],axis=1)
 
 
 
-lstm=d.lstm1m(train_set[:10000,:],test_set[:10000,:])
+lstm=m.LSTM1m(train_set[:10000,:],test_set[:10000,:])
 with open("lstm1m.pkl","wb") as f:
     pickle.dump([train_set[:10000,:],lstm[1],test_set[:10000,:]],f)
 

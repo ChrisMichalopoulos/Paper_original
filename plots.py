@@ -135,12 +135,17 @@ plt.show()
 
 """#Data reads for 1 month predictions"""
 
-with open("autoarima1.pkl","rb") as f:
+with open("sarima1m.pkl","rb") as f:
     data1=pickle.load(f)
+
+sarim=m.errors(data1[2],data1[1])
     
-# autoarim1m=m.errors(data1[2],data1[1])
-    
-# autoarima1m= autoarim1m.experrors()
+sarima1m= sarim.plotperquarter(month=1)
+
+
+
+
+
 
 
 
@@ -153,7 +158,7 @@ data4 = np.random.normal(0, 1, 100)
 
 # Combine the data into a list
 #boxblots
-data = [data1[0][2], naive[2], average[2]]
+data = [average[2], naive[2],np.average(sarima1m[0],axis=1) ]
 
 # Create a figure and axis
 fig2, ax2 = plt.subplots(figsize=(8, 6), dpi=100)
@@ -171,7 +176,7 @@ ax2.boxplot(data,widths=0.5, patch_artist=True,
 
 
 # Set the x-axis tick labels
-ax2.set_xticklabels(['Autoarima', 'Naive', 'Average'])
+ax2.set_xticklabels(['Average', 'Naive', 'SARIMA'])
 
 # Set the y-axis label
 ax2.set_ylabel('Value')

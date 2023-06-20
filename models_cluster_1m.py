@@ -96,8 +96,6 @@ def  KNNtimeseries(mesured,train_set,test_set,k=15,mean=True):
         mvalues[:,i]= np.sum(results[:,3*i:3*i+3],axis=1)   
         actual_values[:,i]=np.sum(test_set[:,3*i:3*i+3],axis=1)
         
-    print(actual_values)
-    print(mvalues)
     er=m.errors(actual_values,mvalues)
     
     return er.experrors() , results
