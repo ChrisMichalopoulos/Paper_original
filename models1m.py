@@ -81,8 +81,8 @@ def sarima1m(train_set,test_set,order=(1,1,1),seasonality=(1,1,1,12)):
     for i in tqdm(range(x)):
         train=list(train_set[i,:])
         for ii in range(0,y,3):
-            model=ARIMA(train,order=order,seasonal_order=seasonality)
             try:
+                model=ARIMA(train,order=order,seasonal_order=seasonality)
                 m_f=model.fit()
             
             

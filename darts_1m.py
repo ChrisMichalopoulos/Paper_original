@@ -29,14 +29,17 @@ def autoarima1m(train_set,test_set):
     for i in tqdm(range(x)):
         train=list(train_set[i,:])
         for ii in range(0,y,3):
-            data=TimeSeries.from_values(np.array(train))
-            model=AutoARIMA()
-            model.fit(data)
-            
-            results[i,ii:ii+3]=model.predict(n=3).values().ravel()
-            train.append(test_set[i,ii])
-            train.append(test_set[i,ii+1])
-            train.append(test_set[i,ii+2])
+            try:
+                data=TimeSeries.from_values(np.array(train))
+                model=AutoARIMA()
+                model.fit(data)
+                
+                results[i,ii:ii+3]=model.predict(n=3).values().ravel()
+                train.append(test_set[i,ii])
+                train.append(test_set[i,ii+1])
+                train.append(test_set[i,ii+2])
+            except:
+                results[i,ii:ii+3]=np.array([np.average(train),np.average(train),np.average(train)])
     #3month base    
     
     v3=int(y/3)
