@@ -144,21 +144,49 @@ sarima1m= sarim.plotperquarter(month=1)
 
 
 
+with open("knn1m.pkl","rb") as f:
+    data1=pickle.load(f)
+
+knn=m.errors(data1[2],data1[1])
+    
+knn1m= knn.plotperquarter(month=1)
+
+
+with open("arima1m.pkl","rb") as f:
+    data1=pickle.load(f)
+
+arim1m=m.errors(data1[2],data1[1])
+    
+arima1m= arim1m.plotperquarter(month=1)
 
 
 
+with open("autoarima1m.pkl","rb") as f:
+    data1=pickle.load(f)
 
+autoarim1m=m.errors(data1[2],data1[1])
+    
+autoarima1m= autoarim1m.plotperquarter(month=1)
+
+with open("lstm1m.pkl","rb") as f:
+    data1=pickle.load(f)
+
+lstmm=m.errors(data1[2],data1[1])
+    
+lstm1m= lstmm.plotperquarter(month=1)
+
+   
 
 #plot
 plt.style.use('_mpl-gallery')
 
 
-data3 = np.random.normal(0, 1.5, 100)
-data4 = np.random.normal(0, 1, 100)
+# data3 = np.random.normal(0, 1.5, 100)
+# data4 = np.random.normal(0, 1, 100)
 
 # Combine the data into a list
 #boxblots
-data = [average[2], naive[2],np.average(sarima1m[0],axis=1) ]
+data = [average[2], naive[2],np.average(arima1m[0],axis=1),np.average(sarima1m[0],axis=1),np.average(autoarima1m[0],axis=1), np.average(lstm1m[0],axis=1),np.average(knn1m[0],axis=1) ]
 
 # Create a figure and axis
 fig2, ax2 = plt.subplots(figsize=(8, 6), dpi=100)
@@ -176,12 +204,12 @@ ax2.boxplot(data,widths=0.5, patch_artist=True,
 
 
 # Set the x-axis tick labels
-ax2.set_xticklabels(['Average', 'Naive', 'SARIMA'])
+ax2.set_xticklabels(['Average', 'Naive',"ARIMA", 'SARIMA',"ΑutoARIMA","LSTM","KNN"])
 
 # Set the y-axis label
 ax2.set_ylabel('Value')
 ax2.set_ylim([0, 1])
-ax2.set_yticks(np.arange(0, 1.5, 0.1))
+ax2.set_yticks(np.arange(0, 1, 0.1))
 # Set the title
 ax2.set_title('MAPE Error - 1 month')
 

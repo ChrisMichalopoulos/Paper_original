@@ -45,22 +45,22 @@ train_set,test_set=np.split(unmesured_data,[train_colum],axis=1)
 
 
 
-autoarim= d.autoarima1m(train_set[:10000,:],test_set[:10000,:])
-with open("autoarima1m.pkl","wb") as f:
-    pickle.dump([train_set[:10000,:],autoarim[1],test_set[:10000,:]],f)
+# autoarim= d.autoarima1m(train_set[:10000,:],test_set[:10000,:])
+# with open("autoarima1m.pkl","wb") as f:
+#     pickle.dump([train_set[:10000,:],autoarim[1],test_set[:10000,:]],f)
 
 
 
 
-lstm=m.LSTM1m(train_set[:10000,:],test_set[:10000,:])
-with open("lstm1m.pkl","wb") as f:
-    pickle.dump([train_set[:10000,:],lstm[1],test_set[:10000,:]],f)
+# lstm=m.LSTM1m(train_set[:5000,:],test_set[:5000,:])
+# with open("lstm1m.pkl","wb") as f:
+#     pickle.dump([train_set[:5000,:],lstm[1],test_set[:5000,:]],f)
 
 
 
 
-# knn=  mc.KNNtimeseries(mesured_data,train_set,test_set,k=40,mean=True)
-# with open("knn1m.pkl","wb") as f:
-#     pickle.dump([train_set,knn[1],test_set],f)
+knn=  mc.KNNtimeseries(mesured_data[:100000,:],train_set[:20000,:],test_set[:20000,:],k=40,mean=True)
+with open("knn1m.pkl","wb") as f:
+    pickle.dump([train_set[:20000,:],knn[1],test_set[:20000,:]],f)
 
 
