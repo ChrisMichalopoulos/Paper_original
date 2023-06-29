@@ -297,7 +297,7 @@ ax.set_xticklabels(categories,fontsize=12)
 ax.set_ylabel('Value',fontsize=12)
 ax.tick_params(axis='y', labelsize=12)
 # Set the title
-ax.set_title('Error per quarter year',fontsize=16)
+# ax.set_title('Error per quarter year',fontsize=16)
 ax.set_ylim([0, 1])
 # Add a legend
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
