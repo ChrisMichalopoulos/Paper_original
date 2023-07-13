@@ -111,7 +111,7 @@ def sarima1m(train_set,test_set,order=(1,1,1),seasonality=(1,1,1,12)):
 
 
 
-def LSTM1m(train_set,test_set,n_pri_steps=12,layers=100):
+def LSTM1m(train_set,test_set,n_pri_steps=12,layers=100,epochs=50):
     
     x,y=test_set.shape
     u,v=train_set.shape
@@ -142,7 +142,7 @@ def LSTM1m(train_set,test_set,n_pri_steps=12,layers=100):
         
         #model fit
         
-        model.fit(generator,epochs=50,verbose=0)
+        model.fit(generator,epochs=epochs,verbose=0)
         
 
 
